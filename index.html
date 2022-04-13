@@ -10,22 +10,59 @@
 <body>
     <header>
         <img src="./src/img/logo 1.png" />
-        <ion-icon size ="large" name="people"></ion-icon>
+        <ion-icon onclick="menuShow()" size ="large" name="people"></ion-icon>
     </header>
+    <div onclick="menuHide()" class="overlay hide">
+        <div class="menu-lateral">
+            <h5>Escolha um contato para enviar mensagem:</h5>
+            <div class="to">
+                <div>
+                    <ion-icon name="people"></ion-icon>
+                    <spam>Todos</spam>
+                </div>
+                <ion-icon name="checkmark-outline"></ion-icon>
+            </div>
+            <div class="to">
+                <div>
+                    <ion-icon name="person-circle"></ion-icon>
+                    <spam>Todos</spam>
+                </div>
+                <ion-icon name="checkmark-outline"></ion-icon>
+            </div>
+            <h5>Escolha a visibilidade:</h5>
+            <div class="to">
+                <div>
+                    <ion-icon name="lock-closed"></ion-icon>
+                    <spam>Público</spam>
+                </div>
+                <ion-icon name="checkmark-outline"></ion-icon>
+            </div>
+            <div class="to">
+                <div>
+                    <ion-icon name="lock-closed"></ion-icon>
+                    <spam>Reservadamente</spam>
+                </div>
+                <ion-icon name="checkmark-outline"></ion-icon>
+            </div>
+        </div>
+    </div>
     <main>
         <div class="status">(09:21:45)  João  entra na sala...</div>
-        <div class="mensagem">(09:22:28)  João para Todos:  Bom dia</div>
-        <div class="mensagem">(09:22:38)  Maria para João:  Oi João :)</div>
-        <div class="private">(09:22:48)  João reservadamente para Maria:  Oi gatinha quer tc?</div>
+        <div class="message">(09:22:28)  João para Todos:  Bom dia</div>
+        <div class="message">(09:22:38)  Maria para João:  Oi João :)</div>
+        <div class="private_message">(09:22:48)  João reservadamente para Maria:  Oi gatinha quer tc?</div>
         <div class="status">(09:22:58)  Maria  sai da sala...</div>
     </main>
+    <div class="scroller"></div>
     <footer>
         <input placeholder="Escreva aqui..." type="text">
-        <ion-icon size ="large" name="paper-plane-outline"></ion-icon>
+        <ion-icon onclick="sendMensagem()" size ="large" name="paper-plane-outline"></ion-icon>
     </footer>
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="./src/script/script.js"></script>
 </body>
 </html>
