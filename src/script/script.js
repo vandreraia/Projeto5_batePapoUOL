@@ -1,6 +1,7 @@
 let objNome;
 let message;
 let from;
+let oldMsgs
 let to = "Todos";
 let type = "message";
 
@@ -16,22 +17,28 @@ function postMensagens(Mensagens) {
     el.innerHTML = "";
     for (let i = 0; i < msgs.length; i++) {
         if (msgs[i].type == "status") {
-            //el.innerHTML += `<div class='status'>(${msgs[i].time}) <b>${msgs[i].from}</b> ${msgs[i].text}</div>`;
+            el.innerHTML += `<div class='status'>(${msgs[i].time}) <b>${msgs[i].from}</b> ${msgs[i].text}</div>`;
         }
         if (msgs[i].type == "message") {
             el.innerHTML += `<div class='message'>(${msgs[i].time}) <b>${msgs[i].from}</b> para <b>${msgs[i].to}</b>: ${msgs[i].text}</div>`;
         }
         if (msgs[i].type == "private_message") {
-            if (msgs[i].to == from){
-            el.innerHTML += `<div class='private_message'>(${msgs[i].time}) <b>${msgs[i].from}</b> reservadamente para <b>${msgs[i].to}</b>: ${msgs[i].text}</div>`;
+            if (msgs[i].to == from) {
+                el.innerHTML += `<div class='private_message'>(${msgs[i].time}) <b>${msgs[i].from}</b> reservadamente para <b>${msgs[i].to}</b>: ${msgs[i].text}</div>`;
             }
         }
     }
-    document.querySelector(".scroller").scrollIntoView();
+    if (oldMsgs !== msgs){
+        document.querySelector(".scroller").scrollIntoView();
+    }
+    console.log(msgs[msgs.length-1])
+    console.log(oldMsgs[oldMsgs.length-1])
+    oldMsgs = msgs;
+    
 }
 
 function sendMensagem() {
-    let text = document.querySelector("input").value;
+    let text = document.querySelector("footer").querySelector("input").value;
     message = {
         from,
         to,
@@ -46,8 +53,7 @@ function sendMensagem() {
     });
 }
 
-function entrarNaSala() {
-    let name = "ana catarina";//prompt("Qual seu nome?");
+function entrarNaSala(name) {
     objNome = { name };
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", objNome);
     promise.then(enterRoom);
@@ -68,8 +74,8 @@ function enterRoomError(error) {
 
     if (statusCode == 400) {
         console.log("entrarNaSala error")
-        //alert("digite outro lindo nome, pois o esse seu lindo nome já está em uso")
-        //entrarNaSala();
+        alert("digite outro lindo nome, pois o esse seu lindo nome já está em uso")
+        entrarNaSala();
     }
 }
 
@@ -152,7 +158,7 @@ function selectPubico() {
             <spam>Reservadamente</spam>
         </div>
     </div>`
-    el = document.querySelector("footer");
+    el = document.querySelector("footer").querySelector("div");
     el.innerHTML = `
     <input placeholder="Escreva aqui..." type="text">
     <ion-icon onclick="sendMensagem()" size="large" name="paper-plane-outline"></ion-icon>`;
@@ -175,7 +181,7 @@ function selectReservadamente() {
         </div>
         <ion-icon name="checkmark-outline"></ion-icon>
     </div>`
-    el = document.querySelector("footer");
+    el = document.querySelector("footer").querySelector("div");
     el.innerHTML = `
     <div>
         <input placeholder="Escreva aqui..." type="text">
@@ -185,18 +191,31 @@ function selectReservadamente() {
 }
 
 function sendOnEnter() {
-    el = document.querySelector("input")
+    el = document.querySelector("footer").querySelector("input");
     el.addEventListener('keydown', function (event) {
         if (event.key === "Enter") {
             sendMensagem();
         }
     })
+    el = document.querySelector("input");
+    el.addEventListener('keydown', function (event) {
+        if (event.key === "Enter") {
+            enter();
+        }
+    })
 }
 
-getMensagens();
-entrarNaSala();
+function enter() {
+    el = document.querySelector("input");
+    const name = el.value;
+    entrarNaSala(name);
+    getMensagens();
+    getParticipantes();
+    el = document.querySelector(".login-background");
+    el.classList.add("hide");
+}
+
 sendOnEnter();
-getParticipantes();
 setInterval(getMensagens, 3000);
 setInterval(getParticipantes, 10000);
 //setInterval(scroll, 10000);
