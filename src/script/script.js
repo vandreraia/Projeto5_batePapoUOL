@@ -1,8 +1,8 @@
-let from;
 let objNome;
 let message;
-let to;
-let type;
+let from;
+let to = "Todos";
+let type = "message";
 
 function getMensagens() {
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
@@ -16,27 +16,27 @@ function postMensagens(Mensagens) {
     el.innerHTML = "";
     for (let i = 0; i < msgs.length; i++) {
         if (msgs[i].type == "status") {
-            el.innerHTML += `<div class='status'>(${msgs[i].time}) <b>${msgs[i].from}</b> ${msgs[i].text}</div>`;
+            //el.innerHTML += `<div class='status'>(${msgs[i].time}) <b>${msgs[i].from}</b> ${msgs[i].text}</div>`;
         }
         if (msgs[i].type == "message") {
             el.innerHTML += `<div class='message'>(${msgs[i].time}) <b>${msgs[i].from}</b> para <b>${msgs[i].to}</b>: ${msgs[i].text}</div>`;
         }
         if (msgs[i].type == "private_message") {
+            if (msgs[i].to == from){
             el.innerHTML += `<div class='private_message'>(${msgs[i].time}) <b>${msgs[i].from}</b> reservadamente para <b>${msgs[i].to}</b>: ${msgs[i].text}</div>`;
+            }
         }
     }
     document.querySelector(".scroller").scrollIntoView();
 }
 
 function sendMensagem() {
-    to;
-
     let text = document.querySelector("input").value;
     message = {
         from,
         to,
         text,
-        type: "message"
+        type
     };
 
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", message);
@@ -56,7 +56,7 @@ function entrarNaSala() {
 }
 
 function enterRoom() {
-    setInterval(continuarNaRoom, 5000);
+    setInterval(continuarNaRoom, 4000);
 }
 
 function continuarNaRoom() {
@@ -125,7 +125,7 @@ function postParticipantes(participantes) {
     }
 }
 
-function selectContact(contato){
+function selectContact(contato) {
     const el = contato;
     const selected = document.querySelector(".to.selected");
     to = el.querySelector("spam").innerHTML;
@@ -135,7 +135,8 @@ function selectContact(contato){
     el.querySelector(".ion").classList.add("selected");
 }
 
-function selectPubico(){
+function selectPubico() {
+    type = "message";
     el = document.querySelector(".visibilidade");
     el.innerHTML = `
     <div class="to" onclick="selectPubico()">
@@ -151,16 +152,51 @@ function selectPubico(){
             <spam>Reservadamente</spam>
         </div>
     </div>`
+    el = document.querySelector("footer");
+    el.innerHTML = `
+    <input placeholder="Escreva aqui..." type="text">
+    <ion-icon onclick="sendMensagem()" size="large" name="paper-plane-outline"></ion-icon>`;
 }
 
-function selectReservadamente(){
+function selectReservadamente() {
+    type = "private_message";
+    el = document.querySelector(".visibilidade");
+    el.innerHTML = `
+    <div class="to" onclick="selectPubico()">
+        <div>
+            <ion-icon name="lock-closed"></ion-icon>
+            <spam>Público</spam>
+        </div>
+    </div>
+    <div class="to" onclick="selectReservadamente()">
+        <div>
+            <ion-icon name="lock-closed"></ion-icon>
+            <spam>Reservadamente</spam>
+        </div>
+        <ion-icon name="checkmark-outline"></ion-icon>
+    </div>`
+    el = document.querySelector("footer");
+    el.innerHTML = `
+    <div>
+        <input placeholder="Escreva aqui..." type="text">
+        <spam>Enviando para ${to} (reservadamente)</spam>
+    </div>
+    <ion-icon onclick="sendMensagem()" size="large" name="paper-plane-outline"></ion-icon>`;
+}
 
+function sendOnEnter() {
+    el = document.querySelector("input")
+    el.addEventListener('keydown', function (event) {
+        if (event.key === "Enter") {
+            sendMensagem();
+        }
+    })
 }
 
 getMensagens();
-//setTimeout(scroll, 1000);
 entrarNaSala();
-setInterval(getMensagens, 3000);
+sendOnEnter();
 getParticipantes();
+setInterval(getMensagens, 3000);
 setInterval(getParticipantes, 10000);
 //setInterval(scroll, 10000);

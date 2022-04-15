@@ -17,7 +17,7 @@ header {
 
 main {
     padding-top: 100px;
-    padding-bottom: 70px;
+    padding-bottom: 90px;
 }
 
 footer {
@@ -42,15 +42,15 @@ input {
     color: black;
 }
 
-h5{
+h5 {
     font-size: 16px;
 }
 
-.hide{    
+.hide {
     display: none;
 }
 
-.overlay{
+.overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -60,7 +60,7 @@ h5{
     z-index: 1;
 }
 
-.menu-lateral{
+.menu-lateral {
     position: fixed;
     top: 0;
     right: 0;
@@ -72,7 +72,7 @@ h5{
 }
 
 
-.to{
+.to {
     width: 100%;
     margin: 5px;
     display: flex;
@@ -80,16 +80,26 @@ h5{
     justify-content: space-between;
 }
 
-.ion > ion-icon {
+footer spam {
+    color: gray;
+}
+
+footer>div {
+    width: 100%;
+}
+
+.ion>ion-icon {
     color: white;
 }
-.to > ion-icon {
+
+.to>ion-icon {
     color: #28BB25;
 }
 
-.selected > ion-icon{
+.selected>ion-icon {
     color: #28BB25
 }
+
 .status {
     padding: 10px;
     background-color: #DCDCDC;
