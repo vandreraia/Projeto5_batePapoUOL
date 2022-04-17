@@ -1,4 +1,5 @@
 body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: #eeeeee;
 }
 
@@ -52,10 +53,6 @@ h5 {
     font-size: 16px;
 }
 
-.hide {
-    display: none;
-}
-
 .overlay {
     position: fixed;
     top: 0;
@@ -64,17 +61,23 @@ h5 {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
+    transition: top 500ms, transform 500ms;
 }
 
 .menu-lateral {
     position: fixed;
     top: 0;
     right: 0;
+    text-align: center;
+    min-width: 200px;
     width: 30%;
     height: 100%;
     background-color: white;
     padding: 0 20px;
     z-index: 1;
+    opacity: 1;
+    overflow: scroll;
+    transition: top 500ms, transform 500ms;
 }
 
 
@@ -122,6 +125,24 @@ footer spam {
     word-wrap: break-word;
 }
 
+.login-background {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 2;
+    opacity: 1;
+    transition: top 500ms, transform 500ms;
+}
+
+.hide {
+    top: 900px;
+    transform: rotate(1turn);
+    transition: top 500ms, transform 500ms;
+}
+
 .login {
     width: 100%;
     height: 60%;
@@ -158,12 +179,3 @@ footer spam {
     height: 92px;
 }
 
-.login-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    z-index: 1;
-}

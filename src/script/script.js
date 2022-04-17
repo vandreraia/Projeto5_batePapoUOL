@@ -1,7 +1,7 @@
 let objNome;
 let message;
 let from;
-let oldMsgs
+let oldMsg;
 let to = "Todos";
 let type = "message";
 
@@ -23,17 +23,21 @@ function postMensagens(Mensagens) {
             el.innerHTML += `<div class='message'>(${msgs[i].time}) <b>${msgs[i].from}</b> para <b>${msgs[i].to}</b>: ${msgs[i].text}</div>`;
         }
         if (msgs[i].type == "private_message") {
-            if (msgs[i].to == from) {
+            if (msgs[i].to == from || msgs[i].from == from) {
                 el.innerHTML += `<div class='private_message'>(${msgs[i].time}) <b>${msgs[i].from}</b> reservadamente para <b>${msgs[i].to}</b>: ${msgs[i].text}</div>`;
             }
         }
     }
-    if (oldMsgs !== msgs){
+    scroll();
+}
+
+function scroll() {
+    let el = document.querySelector("main").childNodes
+    el = el[el.length - 1].innerHTML;
+    if (oldMsg !== el){
         document.querySelector(".scroller").scrollIntoView();
     }
-    console.log(msgs[msgs.length-1])
-    console.log(oldMsgs[oldMsgs.length-1])
-    oldMsgs = msgs;
+    oldMsg = el;
     
 }
 
@@ -75,7 +79,8 @@ function enterRoomError(error) {
     if (statusCode == 400) {
         console.log("entrarNaSala error")
         alert("digite outro lindo nome, pois o esse seu lindo nome já está em uso")
-        entrarNaSala();
+        el = document.querySelector(".login-background");
+        el.classList.remove("hide");
     }
 }
 
@@ -91,10 +96,6 @@ function menuHide() {
     el.classList.add("hide");
     el = document.querySelector(".menu-lateral");
     el.classList.add("hide");
-}
-
-function scroll() {
-    window.scrollTo(0, document.body.scrollHeight)
 }
 
 function getParticipantes() {
@@ -121,7 +122,7 @@ function postParticipantes(participantes) {
         el.innerHTML += `
         <div class="to" onclick="selectContact(this)">
             <div>
-                <ion-icon name="people"></ion-icon>
+                <ion-icon name="person-circle"></ion-icon>
                 <spam>${participante[i].name}</spam>
             </div>
             <div class="ion">
