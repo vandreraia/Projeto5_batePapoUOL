@@ -34,11 +34,11 @@ function postMensagens(Mensagens) {
 function scroll() {
     let el = document.querySelector("main").childNodes
     el = el[el.length - 1].innerHTML;
-    if (oldMsg !== el){
+    if (oldMsg !== el) {
         document.querySelector(".scroller").scrollIntoView();
     }
     oldMsg = el;
-    
+
 }
 
 function sendMensagem() {
